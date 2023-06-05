@@ -7,6 +7,7 @@ from typing import List
 from clues.parse_clues import read_clues
 from config import Config
 import random
+import pandas as pd
 # read api ley from environment
 
 
@@ -71,16 +72,23 @@ def test():
 def test_clues():
     clues = read_clues(Config.mini_clues_path)
     print(clues.head())
-    clue = str(clues['clue'].sample(1, random_state=42).iloc[0])
+    # clue = str(clues['clue'].sample(1, random_state=42).iloc[0])
+    clue = 'tearoom biscuit'
+    length = 5
     answers = list(clues['answer'])
+    answers = [x for x in answers if len(x) == length]
     query = Query(clue, answers)
     similarity_generator = SimilarityGenerator()
     response = similarity_generator.generate(query)
-    return response
+    df = pd.DataFrame({'answers': answers, 'similarity': response})
+    df = df.sort_values(by='similarity', ascending=False)
+
+    return df
 
 
 def main():
-    test_clues()
+    df = test_clues()
+    print(df.head())
     return
 
 
