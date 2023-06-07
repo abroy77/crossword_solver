@@ -1,4 +1,4 @@
 [flake8]
-max-line-length = 150
+max-line-length = 79
 exclude = .git,__pycache__,docs/source/conf.py,old,build,dist
 extend-ignore = E731,E401,E266,F401
